@@ -11,6 +11,12 @@ interface MetadataFormProps {
     onSubmit: (values: VideoMetadata) => void;
 }
 
+/** Shared input styling. fontSize is set inline (not via a NativeWind text-* class)
+ * so no lineHeight is applied — that prevents the glyphs from being clipped on Android. */
+const inputClassName =
+    'rounded-xl border border-gray-300 px-4 py-3 text-gray-900 dark:border-gray-600 dark:text-white';
+const inputTextStyle = { fontSize: 16 } as const;
+
 /**
  * Title/description form for a diary entry, validated with zod through
  * react-hook-form. Reused for both creating and editing entries.
@@ -44,8 +50,10 @@ export function MetadataForm({
                     name="name"
                     render={({ field: { value, onChange, onBlur } }) => (
                         <TextInput
-                            className="rounded-xl border border-gray-300 px-4 py-3 text-base text-gray-900 dark:border-gray-600 dark:text-white"
+                            className={inputClassName}
+                            style={inputTextStyle}
                             placeholder="My morning run"
+                            placeholderTextColor="#9ca3af"
                             value={value}
                             onChangeText={onChange}
                             onBlur={onBlur}
@@ -66,8 +74,10 @@ export function MetadataForm({
                     name="description"
                     render={({ field: { value, onChange, onBlur } }) => (
                         <TextInput
-                            className="h-28 rounded-xl border border-gray-300 px-4 py-3 text-base text-gray-900 dark:border-gray-600 dark:text-white"
+                            className={`h-28 ${inputClassName}`}
+                            style={inputTextStyle}
                             placeholder="What happened in this clip?"
+                            placeholderTextColor="#9ca3af"
                             value={value}
                             onChangeText={onChange}
                             onBlur={onBlur}

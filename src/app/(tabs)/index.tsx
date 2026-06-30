@@ -1,7 +1,7 @@
 import { useRouter } from 'expo-router';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { Alert, Text, View } from 'react-native';
-import { FlashList } from '@shopify/flash-list';
+import { FlashList, type FlashListRef } from '@shopify/flash-list';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { EmptyState } from '@/components/home/empty-state';
@@ -17,9 +17,20 @@ export default function HomeScreen() {
   const loadVideos = useVideoStore((state) => state.loadVideos);
   const removeVideo = useRemoveVideo();
 
+  const listRef = useRef<FlashListRef<VideoEntry>>(null);
+  const previousCount = useRef(videos.length);
+
   useEffect(() => {
     loadVideos();
   }, [loadVideos]);
+
+  // New entries are prepended, so reveal the top when the list grows.
+  useEffect(() => {
+    if (videos.length > previousCount.current) {
+      listRef.current?.scrollToOffset({ offset: 0, animated: true });
+    }
+    previousCount.current = videos.length;
+  }, [videos.length]);
 
   const confirmDelete = (video: VideoEntry) => {
     Alert.alert('Delete video', `Delete “${video.name}”?`, [
@@ -40,12 +51,13 @@ export default function HomeScreen() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-white dark:bg-black">
+    <SafeAreaView className="flex-1 bg-white dark:bg-black" edges={['top', 'bottom']}>
       <View className="flex-1 gap-4 p-5">
         <Text className="text-3xl font-bold text-gray-900 dark:text-white">
           Video Diary
         </Text>
         <FlashList
+          ref={listRef}
           data={videos}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
