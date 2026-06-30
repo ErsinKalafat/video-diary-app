@@ -1,8 +1,8 @@
 import { Text, View } from 'react-native';
 
+import { CropPreview } from '@/components/crop/crop-preview';
 import { Scrubber } from '@/components/scrubber';
 import { Button } from '@/components/ui/button';
-import { VideoPlayer } from '@/components/video-player';
 import { CROP_DURATION_SEC } from '@/store/video-editor-store';
 
 interface CropStepProps {
@@ -35,7 +35,11 @@ export function CropStep({
 
     return (
         <View className="gap-4">
-            <VideoPlayer uri={sourceUri} />
+            <CropPreview
+                uri={sourceUri}
+                startSec={startSec}
+                windowSec={CROP_DURATION_SEC}
+            />
 
             <View className="flex-row justify-between">
                 <Text className="text-sm text-white/70">
