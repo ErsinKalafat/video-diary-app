@@ -1,6 +1,7 @@
 import { Pressable, Text, View } from 'react-native';
 import Animated, { FadeInDown, LinearTransition } from 'react-native-reanimated';
 
+import { VideoThumbnail } from '@/components/home/video-thumbnail';
 import { type VideoEntry } from '@/db/schema';
 
 interface VideoListItemProps {
@@ -9,39 +10,31 @@ interface VideoListItemProps {
     onDelete: () => void;
 }
 
-/** A single row in the home list: play icon, name, description and a delete button. */
+/** A glassy row: clip thumbnail, name, description and a delete button. */
 export function VideoListItem({ video, onPress, onDelete }: VideoListItemProps) {
     return (
         <Animated.View entering={FadeInDown} layout={LinearTransition.springify()}>
             <Pressable
-                className="flex-row items-center gap-3 rounded-2xl bg-gray-100 p-3 active:opacity-80 dark:bg-gray-800"
+                className="flex-row items-center gap-3 rounded-3xl border border-white/15 bg-white/10 p-3 active:bg-white/20"
                 onPress={onPress}
             >
-                <View className="h-14 w-14 items-center justify-center rounded-xl bg-blue-600">
-                    <Text className="text-xl text-white">▶</Text>
-                </View>
+                <VideoThumbnail uri={video.croppedUri} />
                 <View className="flex-1">
-                    <Text
-                        numberOfLines={1}
-                        className="text-base font-semibold text-gray-900 dark:text-white"
-                    >
+                    <Text numberOfLines={1} className="text-base font-semibold text-white">
                         {video.name}
                     </Text>
                     {video.description ? (
-                        <Text
-                            numberOfLines={1}
-                            className="text-sm text-gray-500 dark:text-gray-400"
-                        >
+                        <Text numberOfLines={1} className="text-sm text-white/60">
                             {video.description}
                         </Text>
                     ) : null}
                 </View>
                 <Pressable
-                    className="h-9 w-9 items-center justify-center rounded-full active:opacity-60"
+                    className="h-9 w-9 items-center justify-center rounded-full bg-white/10 active:bg-white/20"
                     hitSlop={8}
                     onPress={onDelete}
                 >
-                    <Text className="text-lg">🗑️</Text>
+                    <Text className="text-base">🗑️</Text>
                 </Pressable>
             </Pressable>
         </Animated.View>

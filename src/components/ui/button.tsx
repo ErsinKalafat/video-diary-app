@@ -1,3 +1,4 @@
+import { LinearGradient } from 'expo-linear-gradient';
 import { Pressable, Text } from 'react-native';
 
 type ButtonVariant = 'primary' | 'secondary';
@@ -8,27 +9,32 @@ interface ButtonProps {
     variant?: ButtonVariant;
 }
 
-const containerStyle: Record<ButtonVariant, string> = {
-    primary: 'bg-blue-600 active:bg-blue-700',
-    secondary:
-        'border border-gray-300 active:bg-gray-100 dark:border-gray-600 dark:active:bg-gray-800',
-};
+/** Vivid gradient for the primary call-to-action. */
+const PRIMARY_GRADIENT = ['#6366f1', '#8b5cf6', '#d946ef'] as const;
 
-const labelStyle: Record<ButtonVariant, string> = {
-    primary: 'text-white',
-    secondary: 'text-gray-900 dark:text-white',
-};
-
-/** A single full-width button used across the app. */
+/** A full-width button: gradient for primary, frosted glass for secondary. */
 export function Button({ label, onPress, variant = 'primary' }: ButtonProps) {
+    if (variant === 'secondary') {
+        return (
+            <Pressable
+                className="items-center rounded-2xl border border-white/30 bg-white/10 py-3.5 active:bg-white/20"
+                onPress={onPress}
+            >
+                <Text className="text-base font-semibold text-white">{label}</Text>
+            </Pressable>
+        );
+    }
+
     return (
-        <Pressable
-            className={`items-center rounded-xl py-3.5 ${containerStyle[variant]}`}
-            onPress={onPress}
-        >
-            <Text className={`text-base font-semibold ${labelStyle[variant]}`}>
-                {label}
-            </Text>
+        <Pressable className="active:opacity-90" onPress={onPress}>
+            <LinearGradient
+                colors={PRIMARY_GRADIENT}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                style={{ alignItems: 'center', borderRadius: 16, paddingVertical: 14 }}
+            >
+                <Text className="text-base font-semibold text-white">{label}</Text>
+            </LinearGradient>
         </Pressable>
     );
 }

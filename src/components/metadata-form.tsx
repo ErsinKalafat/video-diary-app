@@ -14,7 +14,7 @@ interface MetadataFormProps {
 /** Shared input styling. fontSize is set inline (not via a NativeWind text-* class)
  * so no lineHeight is applied — that prevents the glyphs from being clipped on Android. */
 const inputClassName =
-    'rounded-xl border border-gray-300 px-4 py-3 text-gray-900 dark:border-gray-600 dark:text-white';
+    'rounded-xl border border-white/20 bg-white/10 px-4 py-3 text-white';
 const inputTextStyle = { fontSize: 16 } as const;
 
 /**
@@ -42,7 +42,7 @@ export function MetadataForm({
     return (
         <View className="gap-4">
             <View className="gap-1.5">
-                <Text className="text-sm font-medium text-gray-700 dark:text-gray-200">
+                <Text className="text-sm font-medium text-white/80">
                     Name
                 </Text>
                 <Controller
@@ -53,7 +53,7 @@ export function MetadataForm({
                             className={inputClassName}
                             style={inputTextStyle}
                             placeholder="My morning run"
-                            placeholderTextColor="#9ca3af"
+                            placeholderTextColor="rgba(255,255,255,0.4)"
                             value={value}
                             onChangeText={onChange}
                             onBlur={onBlur}
@@ -61,12 +61,12 @@ export function MetadataForm({
                     )}
                 />
                 {errors.name && (
-                    <Text className="text-sm text-red-500">{errors.name.message}</Text>
+                    <Text className="text-sm text-red-400">{errors.name.message}</Text>
                 )}
             </View>
 
             <View className="gap-1.5">
-                <Text className="text-sm font-medium text-gray-700 dark:text-gray-200">
+                <Text className="text-sm font-medium text-white/80">
                     Description
                 </Text>
                 <Controller
@@ -77,7 +77,7 @@ export function MetadataForm({
                             className={`h-28 ${inputClassName}`}
                             style={inputTextStyle}
                             placeholder="What happened in this clip?"
-                            placeholderTextColor="#9ca3af"
+                            placeholderTextColor="rgba(255,255,255,0.4)"
                             value={value}
                             onChangeText={onChange}
                             onBlur={onBlur}
@@ -87,18 +87,18 @@ export function MetadataForm({
                     )}
                 />
                 {errors.description && (
-                    <Text className="text-sm text-red-500">
+                    <Text className="text-sm text-red-400">
                         {errors.description.message}
                     </Text>
                 )}
             </View>
 
             <Pressable
-                className="items-center rounded-xl bg-blue-600 py-3.5 active:bg-blue-700 disabled:opacity-50"
+                className="items-center rounded-2xl bg-white py-3.5 active:opacity-80 disabled:opacity-50"
                 disabled={isSubmitting}
                 onPress={handleSubmit(onSubmit)}
             >
-                <Text className="text-base font-semibold text-white">
+                <Text className="text-base font-semibold text-indigo-700">
                     {isSubmitting ? 'Saving…' : submitLabel}
                 </Text>
             </Pressable>

@@ -3,6 +3,7 @@ import { Alert, View } from 'react-native';
 
 import { MetadataForm } from '@/components/metadata-form';
 import { Message } from '@/components/ui/message';
+import { ScreenBackground } from '@/components/ui/screen-background';
 import { type VideoMetadata } from '@/db/schema';
 import { useVideoById } from '@/hooks/use-video';
 import { useEditVideo } from '@/hooks/use-video-mutations';
@@ -15,7 +16,11 @@ export default function EditScreen() {
     const editVideo = useEditVideo();
 
     if (!video) {
-        return <Message text="Video not found." />;
+        return (
+            <ScreenBackground>
+                <Message text="Video not found." />
+            </ScreenBackground>
+        );
     }
 
     const save = (metadata: VideoMetadata) => {
@@ -33,13 +38,15 @@ export default function EditScreen() {
     };
 
     return (
-        <View className="flex-1 bg-white p-5 dark:bg-black">
-            <MetadataForm
-                defaultValues={{ name: video.name, description: video.description }}
-                submitLabel="Save changes"
-                isSubmitting={editVideo.isPending}
-                onSubmit={save}
-            />
-        </View>
+        <ScreenBackground>
+            <View className="flex-1 p-5">
+                <MetadataForm
+                    defaultValues={{ name: video.name, description: video.description }}
+                    submitLabel="Save changes"
+                    isSubmitting={editVideo.isPending}
+                    onSubmit={save}
+                />
+            </View>
+        </ScreenBackground>
     );
 }

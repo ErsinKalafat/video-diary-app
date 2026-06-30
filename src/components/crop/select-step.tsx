@@ -10,7 +10,7 @@ interface SelectStepProps {
 export function SelectStep({ onPick }: SelectStepProps) {
     return (
         <View className="gap-4">
-            <Text className="text-base text-gray-600 dark:text-gray-300">
+            <Text className="text-base text-white/70">
                 Pick a video from your library, then trim it down to a 5-second
                 highlight.
             </Text>

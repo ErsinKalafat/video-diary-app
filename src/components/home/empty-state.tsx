@@ -9,10 +9,10 @@ export function EmptyState() {
             className="flex-1 items-center justify-center gap-2 px-8"
         >
             <Text className="text-5xl">🎬</Text>
-            <Text className="text-lg font-semibold text-gray-900 dark:text-white">
+            <Text className="text-lg font-semibold text-white">
                 No videos yet
             </Text>
-            <Text className="text-center text-sm text-gray-500 dark:text-gray-400">
+            <Text className="text-center text-sm text-white/60">
                 Tap “Add video” to crop your first 5-second diary clip.
             </Text>
         </Animated.View>

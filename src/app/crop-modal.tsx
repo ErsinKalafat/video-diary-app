@@ -8,6 +8,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { CropStep } from '@/components/crop/crop-step';
 import { MetadataStep } from '@/components/crop/metadata-step';
 import { SelectStep } from '@/components/crop/select-step';
+import { ScreenBackground } from '@/components/ui/screen-background';
 import { type VideoMetadata } from '@/db/schema';
 import { useCreateVideoEntry } from '@/hooks/use-video-mutations';
 import {
@@ -103,43 +104,45 @@ export default function CropModal() {
     );
 
     return (
-        <SafeAreaView className="flex-1 bg-white dark:bg-black" edges={['bottom']}>
-            <ScrollView
-                contentContainerClassName="gap-6 p-5"
-                keyboardShouldPersistTaps="handled"
-            >
-                <View className="gap-1">
-                    <Text className="text-sm font-medium text-blue-600">
-                        Step {STEP_NUMBER[step]} of 3
-                    </Text>
-                    <Text className="text-2xl font-bold text-gray-900 dark:text-white">
-                        {STEP_TITLE[step]}
-                    </Text>
-                </View>
+        <ScreenBackground>
+            <SafeAreaView className="flex-1" edges={['bottom']}>
+                <ScrollView
+                    contentContainerClassName="gap-6 p-5"
+                    keyboardShouldPersistTaps="handled"
+                >
+                    <View className="gap-1">
+                        <Text className="text-sm font-medium text-fuchsia-300">
+                            Step {STEP_NUMBER[step]} of 3
+                        </Text>
+                        <Text className="text-2xl font-bold text-white">
+                            {STEP_TITLE[step]}
+                        </Text>
+                    </View>
 
-                <Animated.View key={step} entering={FadeIn.duration(250)} className="gap-6">
-                    {step === 'select' && <SelectStep onPick={pickVideo} />}
+                    <Animated.View key={step} entering={FadeIn.duration(250)} className="gap-6">
+                        {step === 'select' && <SelectStep onPick={pickVideo} />}
 
-                    {step === 'crop' && sourceUri && (
-                        <CropStep
-                            sourceUri={sourceUri}
-                            durationSec={sourceDurationSec}
-                            startSec={trimStartSec}
-                            onChangeStart={setTrimStart}
-                            onBack={() => goToStep('select')}
-                            onNext={() => goToStep('metadata')}
-                        />
-                    )}
+                        {step === 'crop' && sourceUri && (
+                            <CropStep
+                                sourceUri={sourceUri}
+                                durationSec={sourceDurationSec}
+                                startSec={trimStartSec}
+                                onChangeStart={setTrimStart}
+                                onBack={() => goToStep('select')}
+                                onNext={() => goToStep('metadata')}
+                            />
+                        )}
 
-                    {step === 'metadata' && (
-                        <MetadataStep
-                            isSubmitting={createEntry.isPending}
-                            onSubmit={save}
-                            onBack={() => goToStep('crop')}
-                        />
-                    )}
-                </Animated.View>
-            </ScrollView>
-        </SafeAreaView>
+                        {step === 'metadata' && (
+                            <MetadataStep
+                                isSubmitting={createEntry.isPending}
+                                onSubmit={save}
+                                onBack={() => goToStep('crop')}
+                            />
+                        )}
+                    </Animated.View>
+                </ScrollView>
+            </SafeAreaView>
+        </ScreenBackground>
     );
 }

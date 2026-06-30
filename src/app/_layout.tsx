@@ -12,7 +12,14 @@ export default function RootLayout() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <QueryClientProvider client={queryClient}>
         <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-          <Stack>
+          <Stack
+            screenOptions={{
+              headerStyle: { backgroundColor: '#0f172a' },
+              headerTintColor: '#ffffff',
+              headerShadowVisible: false,
+              contentStyle: { backgroundColor: '#0f172a' },
+            }}
+          >
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
             <Stack.Screen
               name="crop-modal"

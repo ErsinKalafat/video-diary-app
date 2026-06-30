@@ -38,13 +38,13 @@ export function CropStep({
             <VideoPlayer uri={sourceUri} />
 
             <View className="flex-row justify-between">
-                <Text className="text-sm text-gray-600 dark:text-gray-300">
+                <Text className="text-sm text-white/70">
                     Start {formatTime(startSec)}
                 </Text>
-                <Text className="text-sm font-semibold text-blue-600">
+                <Text className="text-sm font-semibold text-fuchsia-300">
                     {CROP_DURATION_SEC}s clip
                 </Text>
-                <Text className="text-sm text-gray-600 dark:text-gray-300">
+                <Text className="text-sm text-white/70">
                     End {formatTime(endSec)}
                 </Text>
             </View>
