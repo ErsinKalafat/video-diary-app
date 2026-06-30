@@ -7,6 +7,7 @@ import {
     updateVideoMetadata,
 } from '@/db';
 import { type VideoEntry, type VideoMetadata } from '@/db/schema';
+import { deleteVideoFile } from '@/lib/video-files';
 
 interface VideoState {
     /** The persisted diary entries, newest first. Mirrors the SQLite table. */
@@ -78,9 +79,13 @@ export const useVideoStore = create<VideoState>((set, get) => ({
 
     removeVideo: async (id) => {
         const previous = get().videos;
+        const removed = previous.find((video) => video.id === id);
         set({ videos: previous.filter((video) => video.id !== id), error: null });
         try {
             await deleteVideo(id);
+            if (removed) {
+                deleteVideoFile(removed.croppedUri);
+            }
         } catch (error) {
             set({ videos: previous, error: toMessage(error) });
             throw error;

@@ -15,9 +15,12 @@ src/
 │   │   ├── _layout.tsx           # Tab bar navigator (renders AppTabs)
 │   │   └── index.tsx             # Home screen (list of cropped videos)
 │   ├── crop-modal.tsx            # Video cropping flow (3-step modal screen)
-│   ├── details/[id].tsx          # Video detail page                        (planned)
-│   └── edit/[id].tsx             # Video edit page (name/description)        (planned)
+│   ├── details/[id].tsx          # Video detail page
+│   └── edit/[id].tsx             # Video edit page (name/description)
 ├── components/                   # Reusable UI components
+│   ├── crop/                     # select-step, crop-step, metadata-step
+│   ├── home/                     # video-list-item, empty-state
+│   ├── ui/                       # button, message (atomic UI)
 │   ├── app-tabs.tsx              # Tab bar (with .web.tsx variant)
 │   ├── metadata-form.tsx         # Zod-powered name/description form (shared create & edit)
 │   ├── video-player.tsx          # Expo Video-based player control
@@ -34,10 +37,12 @@ src/
 │   └── index.ts                  # Barrel re-export
 ├── hooks/                        # Tanstack Query and custom hooks
 │   ├── use-video-mutations.ts    # useMutation hooks (add/edit/remove, crop) — async only
+│   ├── use-video.ts              # useVideoById selector (detail & edit)
 │   ├── use-theme.ts              # Theme resolver
 │   └── use-color-scheme.ts       # Color scheme hook (with .web.ts variant)
 ├── lib/
-│   └── query-client.ts           # Shared Tanstack Query client
+│   ├── query-client.ts           # Shared Tanstack Query client
+│   └── video-files.ts            # Cropped-file cleanup helper
 ├── store/                        # Global state management (Zustand)
 │   ├── video-store.ts            # Persisted video list (source of truth, synced w/ SQLite)
 │   └── video-editor-store.ts     # Ephemeral multi-step crop flow state

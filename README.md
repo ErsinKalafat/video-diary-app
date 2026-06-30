@@ -1,56 +1,102 @@
-# Welcome to your Expo app 👋
+# Video Diary App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A React Native app for keeping a video diary. Pick a video from your library,
+crop a **5-second** moment, give it a name and description, and save it to a
+local list that survives app restarts.
 
-## Get started
+Built with **Expo Router**, **Zustand**, **Tanstack Query**, **expo-trim-video**,
+**NativeWind**, and **Expo SQLite**.
 
-1. Install dependencies
+---
+
+## Features
+
+- Import a video from the device library.
+- Crop an exact 5-second window with a draggable scrubber (end locks to `start + 5s`).
+- Add a name and description, validated with Zod + React Hook Form.
+- Cropped clips are saved to SQLite and listed on the home screen.
+- View a clip on its detail page or edit its name/description.
+- Reanimated touches: animated empty state, list item entrance, and step fades.
+
+---
+
+## Requirements
+
+- Node.js 18+
+- A **development build** is required because `expo-trim-video` is a native
+  module and does not run in Expo Go.
+- **iOS:** Xcode + an iOS Simulator (or a physical device).
+- **Android:** Android Studio + an emulator (or a physical device).
+
+---
+
+## Getting started
+
+1. Install dependencies:
 
    ```bash
    npm install
    ```
 
-2. Start the app
+2. Run a development build:
 
    ```bash
-   npx expo start
+   # iOS (simulator or connected device)
+   npx expo run:ios
+
+   # Android (emulator or connected device)
+   npx expo run:android
    ```
 
-In the output, you'll find options to open the app in a
+   After the first native build, you can start the dev server on its own with:
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+   ```bash
+   npx expo start --dev-client
+   ```
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+---
 
-## Get a fresh project
+## Usage
 
-When you're ready, run:
+1. On the home screen, tap **Add video**.
+2. **Step 1 — Select:** choose a video (at least 5 seconds long) from your library.
+3. **Step 2 — Crop:** drag the scrubber to pick the 5-second window to keep.
+4. **Step 3 — Details:** enter a name (min 3 chars) and an optional description, then save.
+5. The cropped clip appears in the list. Tap it to view, or open **Edit details** to change its metadata.
 
-```bash
-npm run reset-project
+---
+
+## Project structure
+
+```text
+src/
+├── app/                          # Expo Router file-based navigation
+│   ├── _layout.tsx               # Root Stack (providers, theme, hosts tabs + modal)
+│   ├── (tabs)/                   # Tab group
+│   │   ├── _layout.tsx           # Tab bar navigator
+│   │   └── index.tsx             # Home screen (list of cropped videos)
+│   ├── crop-modal.tsx            # 3-step cropping flow (modal)
+│   ├── details/[id].tsx          # Video detail page
+│   └── edit/[id].tsx             # Edit name/description
+├── components/
+│   ├── crop/                     # select-step, crop-step, metadata-step
+│   ├── home/                     # video-list-item, empty-state
+│   ├── ui/                       # button, message (atomic UI)
+│   ├── metadata-form.tsx         # Shared Zod form (create & edit)
+│   ├── scrubber.tsx              # Reanimated 5-second selection bar
+│   └── video-player.tsx          # Expo Video player
+├── db/                           # SQLite layer (schema, queries, init)
+├── hooks/
+│   ├── use-video.ts              # useVideoById selector
+│   └── use-video-mutations.ts    # Tanstack Query mutations (async only)
+├── lib/
+│   ├── query-client.ts           # Shared Tanstack Query client
+│   └── video-files.ts            # Cropped-file cleanup helper
+└── store/
+    ├── video-store.ts            # Persisted list (source of truth, synced w/ SQLite)
+    └── video-editor-store.ts     # Ephemeral crop-flow state
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-### Other setup steps
-
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+**State ownership:** the persisted list lives in the Zustand store (`video-store.ts`)
+and is kept in sync with SQLite. Tanstack Query is used only for async/mutation
+work (the native crop and disk writes), providing loading/error/retry state.

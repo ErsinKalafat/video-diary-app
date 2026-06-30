@@ -2,6 +2,7 @@ import { useRouter } from 'expo-router';
 import * as ImagePicker from 'expo-image-picker';
 import { useCallback } from 'react';
 import { Alert, ScrollView, Text, View } from 'react-native';
+import Animated, { FadeIn } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { CropStep } from '@/components/crop/crop-step';
@@ -116,26 +117,28 @@ export default function CropModal() {
                     </Text>
                 </View>
 
-                {step === 'select' && <SelectStep onPick={pickVideo} />}
+                <Animated.View key={step} entering={FadeIn.duration(250)} className="gap-6">
+                    {step === 'select' && <SelectStep onPick={pickVideo} />}
 
-                {step === 'crop' && sourceUri && (
-                    <CropStep
-                        sourceUri={sourceUri}
-                        durationSec={sourceDurationSec}
-                        startSec={trimStartSec}
-                        onChangeStart={setTrimStart}
-                        onBack={() => goToStep('select')}
-                        onNext={() => goToStep('metadata')}
-                    />
-                )}
+                    {step === 'crop' && sourceUri && (
+                        <CropStep
+                            sourceUri={sourceUri}
+                            durationSec={sourceDurationSec}
+                            startSec={trimStartSec}
+                            onChangeStart={setTrimStart}
+                            onBack={() => goToStep('select')}
+                            onNext={() => goToStep('metadata')}
+                        />
+                    )}
 
-                {step === 'metadata' && (
-                    <MetadataStep
-                        isSubmitting={createEntry.isPending}
-                        onSubmit={save}
-                        onBack={() => goToStep('crop')}
-                    />
-                )}
+                    {step === 'metadata' && (
+                        <MetadataStep
+                            isSubmitting={createEntry.isPending}
+                            onSubmit={save}
+                            onBack={() => goToStep('crop')}
+                        />
+                    )}
+                </Animated.View>
             </ScrollView>
         </SafeAreaView>
     );
