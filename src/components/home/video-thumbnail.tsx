@@ -27,7 +27,7 @@ export function VideoThumbnail({ uri }: VideoThumbnailProps) {
             {thumbnail ? (
                 <Image
                     source={{ uri: thumbnail }}
-                    style={{ width: '100%', height: '100%' }}
+                    className="h-full w-full"
                     contentFit="cover"
                 />
             ) : null}

@@ -31,7 +31,7 @@ export function Button({ label, onPress, variant = 'primary' }: ButtonProps) {
                 colors={PRIMARY_GRADIENT}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 0 }}
-                style={{ alignItems: 'center', borderRadius: 16, paddingVertical: 14 }}
+                className="items-center rounded-2xl py-3.5"
             >
                 <Text className="text-base font-semibold text-white">{label}</Text>
             </LinearGradient>

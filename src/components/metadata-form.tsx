@@ -11,11 +11,11 @@ interface MetadataFormProps {
     onSubmit: (values: VideoMetadata) => void;
 }
 
-/** Shared input styling. fontSize is set inline (not via a NativeWind text-* class)
- * so no lineHeight is applied — that prevents the glyphs from being clipped on Android. */
+/** Shared input styling. The font size uses a Tailwind arbitrary value (text-[16px])
+ * instead of text-base so no lineHeight is applied — that prevents the glyphs from
+ * being clipped on Android. */
 const inputClassName =
-    'rounded-xl border border-white/20 bg-white/10 px-4 py-3 text-white';
-const inputTextStyle = { fontSize: 16 } as const;
+    'rounded-xl border border-white/20 bg-white/10 px-4 py-3 text-[16px] text-white';
 
 /**
  * Title/description form for a diary entry, validated with zod through
@@ -51,7 +51,6 @@ export function MetadataForm({
                     render={({ field: { value, onChange, onBlur } }) => (
                         <TextInput
                             className={inputClassName}
-                            style={inputTextStyle}
                             placeholder="My morning run"
                             placeholderTextColor="rgba(255,255,255,0.4)"
                             value={value}
@@ -75,7 +74,6 @@ export function MetadataForm({
                     render={({ field: { value, onChange, onBlur } }) => (
                         <TextInput
                             className={`h-28 ${inputClassName}`}
-                            style={inputTextStyle}
                             placeholder="What happened in this clip?"
                             placeholderTextColor="rgba(255,255,255,0.4)"
                             value={value}

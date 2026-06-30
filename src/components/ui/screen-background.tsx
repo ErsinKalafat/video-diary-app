@@ -11,7 +11,7 @@ export function ScreenBackground({ children }: { children: ReactNode }) {
             colors={GRADIENT_COLORS}
             start={{ x: 0, y: 0 }}
             end={{ x: 0.9, y: 1 }}
-            style={{ flex: 1 }}
+            className="flex-1"
         >
             {children}
         </LinearGradient>

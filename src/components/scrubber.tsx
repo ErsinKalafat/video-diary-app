@@ -18,8 +18,6 @@ interface ScrubberProps {
     onChange: (startSec: number) => void;
 }
 
-const HANDLE_INSET = 2;
-
 /**
  * A horizontal track representing the whole video, with a draggable highlighted
  * window of fixed length (`windowSec`). Dragging moves the window's start; the
@@ -79,14 +77,8 @@ export function Scrubber({
                     className="absolute top-0 bottom-0 justify-center rounded-xl border-2 border-blue-500 bg-blue-500/25"
                     style={windowStyle}
                 >
-                    <View
-                        className="absolute bottom-2 top-2 w-1.5 rounded-full bg-blue-500"
-                        style={{ left: HANDLE_INSET }}
-                    />
-                    <View
-                        className="absolute bottom-2 top-2 w-1.5 rounded-full bg-blue-500"
-                        style={{ right: HANDLE_INSET }}
-                    />
+                    <View className="absolute bottom-2 top-2 left-0.5 w-1.5 rounded-full bg-blue-500" />
+                    <View className="absolute bottom-2 top-2 right-0.5 w-1.5 rounded-full bg-blue-500" />
                 </Animated.View>
             </GestureDetector>
         </View>

@@ -45,7 +45,7 @@ export function CropPreview({ uri, startSec, windowSec }: CropPreviewProps) {
         <View className="overflow-hidden rounded-2xl bg-black">
             <VideoView
                 player={player}
-                style={{ width: '100%', aspectRatio: 16 / 9 }}
+                className="w-full aspect-video"
                 contentFit="contain"
                 nativeControls={false}
             />
