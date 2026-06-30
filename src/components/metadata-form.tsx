@@ -28,7 +28,7 @@ export function MetadataForm({
     } = useForm<VideoMetadata>({
         resolver: zodResolver(videoMetadataSchema),
         defaultValues: {
-            title: defaultValues?.title ?? '',
+            name: defaultValues?.name ?? '',
             description: defaultValues?.description ?? '',
         },
     });
@@ -37,11 +37,11 @@ export function MetadataForm({
         <View className="gap-4">
             <View className="gap-1.5">
                 <Text className="text-sm font-medium text-gray-700 dark:text-gray-200">
-                    Title
+                    Name
                 </Text>
                 <Controller
                     control={control}
-                    name="title"
+                    name="name"
                     render={({ field: { value, onChange, onBlur } }) => (
                         <TextInput
                             className="rounded-xl border border-gray-300 px-4 py-3 text-base text-gray-900 dark:border-gray-600 dark:text-white"
@@ -52,8 +52,8 @@ export function MetadataForm({
                         />
                     )}
                 />
-                {errors.title && (
-                    <Text className="text-sm text-red-500">{errors.title.message}</Text>
+                {errors.name && (
+                    <Text className="text-sm text-red-500">{errors.name.message}</Text>
                 )}
             </View>
 
