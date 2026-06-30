@@ -1,40 +1,45 @@
 import { useRouter } from 'expo-router';
-import { StyleSheet, View } from 'react-native';
+import { useEffect } from 'react';
+import { FlatList, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
+import { EmptyState } from '@/components/home/empty-state';
+import { VideoListItem } from '@/components/home/video-list-item';
 import { Button } from '@/components/ui/button';
-import { Spacing } from '@/constants/theme';
+import { useVideoStore } from '@/store/video-store';
 
 export default function HomeScreen() {
   const router = useRouter();
+  const videos = useVideoStore((state) => state.videos);
+  const loadVideos = useVideoStore((state) => state.loadVideos);
+
+  useEffect(() => {
+    loadVideos();
+  }, [loadVideos]);
+
   return (
-    <ThemedView style={styles.container}>
-      <SafeAreaView style={styles.safeArea}>
-        <ThemedText type="title">Video Diary</ThemedText>
-        <ThemedText type="default" themeColor="textSecondary">
-          Your diary entries will appear here.
-        </ThemedText>
-        <View style={styles.action}>
-          <Button label="Add video" onPress={() => router.push('/crop-modal')} />
-        </View>
-      </SafeAreaView>
-    </ThemedView>
+    <SafeAreaView className="flex-1 bg-white dark:bg-black">
+      <View className="flex-1 gap-4 p-5">
+        <Text className="text-3xl font-bold text-gray-900 dark:text-white">
+          Video Diary
+        </Text>
+        <FlatList
+          data={videos}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <VideoListItem
+              video={item}
+              onPress={() =>
+                router.push({ pathname: '/details/[id]', params: { id: item.id } })
+              }
+            />
+          )}
+          contentContainerStyle={{ flexGrow: 1, gap: 12 }}
+          ListEmptyComponent={EmptyState}
+          showsVerticalScrollIndicator={false}
+        />
+        <Button label="Add video" onPress={() => router.push('/crop-modal')} />
+      </View>
+    </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  safeArea: {
-    flex: 1,
-    padding: Spacing.four,
-    gap: Spacing.two,
-    justifyContent: 'center',
-  },
-  action: {
-    marginTop: Spacing.three,
-  },
-});

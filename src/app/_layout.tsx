@@ -18,6 +18,8 @@ export default function RootLayout() {
               name="crop-modal"
               options={{ presentation: 'modal', title: 'New Video' }}
             />
+            <Stack.Screen name="details/[id]" options={{ title: 'Details' }} />
+            <Stack.Screen name="edit/[id]" options={{ title: 'Edit' }} />
           </Stack>
         </ThemeProvider>
       </QueryClientProvider>
