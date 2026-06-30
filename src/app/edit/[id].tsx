@@ -1,10 +1,11 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { Alert, View } from 'react-native';
+import { View } from 'react-native';
 
 import { MetadataForm } from '@/components/metadata-form';
-import { Message } from '@/components/ui/message';
+import { NotFound } from '@/components/ui/not-found';
 import { ScreenBackground } from '@/components/ui/screen-background';
 import { type VideoMetadata } from '@/db/schema';
+import { alertError } from '@/lib/errors';
 import { useVideoById } from '@/hooks/use-video';
 import { useEditVideo } from '@/hooks/use-video-mutations';
 
@@ -16,11 +17,7 @@ export default function EditScreen() {
     const editVideo = useEditVideo();
 
     if (!video) {
-        return (
-            <ScreenBackground>
-                <Message text="Video not found." />
-            </ScreenBackground>
-        );
+        return <NotFound />;
     }
 
     const save = (metadata: VideoMetadata) => {
@@ -28,11 +25,7 @@ export default function EditScreen() {
             { id: video.id, metadata },
             {
                 onSuccess: () => router.back(),
-                onError: (error) =>
-                    Alert.alert(
-                        'Could not save',
-                        error instanceof Error ? error.message : 'Please try again.'
-                    ),
+                onError: (error) => alertError('Could not save', error),
             }
         );
     };

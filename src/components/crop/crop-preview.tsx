@@ -1,9 +1,8 @@
-import { useEvent, useEventListener } from 'expo';
-import { useVideoPlayer, VideoView } from 'expo-video';
+import { useEventListener } from 'expo';
+import { useVideoPlayer } from 'expo-video';
 import { useEffect } from 'react';
-import { Pressable, Text, View } from 'react-native';
 
-import { styles } from './crop-preview.styles';
+import { VideoSurface } from '@/components/video-surface';
 
 interface CropPreviewProps {
     /** URI of the source video. */
@@ -39,28 +38,5 @@ export function CropPreview({ uri, startSec, windowSec }: CropPreviewProps) {
         }
     });
 
-    const { isPlaying } = useEvent(player, 'playingChange', {
-        isPlaying: player.playing,
-    });
-
-    return (
-        <View className="overflow-hidden rounded-2xl bg-black">
-            <VideoView
-                player={player}
-                style={styles.video}
-                contentFit="contain"
-                nativeControls={false}
-            />
-            <Pressable
-                className="absolute inset-0 items-center justify-center"
-                onPress={() => (isPlaying ? player.pause() : player.play())}
-            >
-                {!isPlaying && (
-                    <View className="h-14 w-14 items-center justify-center rounded-full bg-white/80">
-                        <Text className="text-2xl text-black">▶</Text>
-                    </View>
-                )}
-            </Pressable>
-        </View>
-    );
+    return <VideoSurface player={player} />;
 }

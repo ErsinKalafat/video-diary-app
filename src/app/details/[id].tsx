@@ -2,7 +2,7 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { ScrollView, Text, View } from 'react-native';
 
 import { Button } from '@/components/ui/button';
-import { Message } from '@/components/ui/message';
+import { NotFound } from '@/components/ui/not-found';
 import { ScreenBackground } from '@/components/ui/screen-background';
 import { VideoPlayer } from '@/components/video-player';
 import { useVideoById } from '@/hooks/use-video';
@@ -14,11 +14,7 @@ export default function DetailsScreen() {
     const video = useVideoById(id);
 
     if (!video) {
-        return (
-            <ScreenBackground>
-                <Message text="Video not found." />
-            </ScreenBackground>
-        );
+        return <NotFound />;
     }
 
     return (

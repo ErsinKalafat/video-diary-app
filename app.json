@@ -21,7 +21,8 @@
       "predictiveBackGestureEnabled": false,
       "permissions": [
         "android.permission.RECORD_AUDIO"
-      ]
+      ],
+      "package": "com.anonymous.videodiaryapp"
     },
     "web": {
       "output": "static",

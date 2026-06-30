@@ -1,8 +1,6 @@
-import { useEvent } from 'expo';
-import { useVideoPlayer, VideoView } from 'expo-video';
-import { Pressable, Text, View } from 'react-native';
+import { useVideoPlayer } from 'expo-video';
 
-import { styles } from './video-player.styles';
+import { VideoSurface } from '@/components/video-surface';
 
 interface VideoPlayerProps {
     /** Local or remote URI of the clip to play. */
@@ -14,7 +12,7 @@ interface VideoPlayerProps {
     className?: string;
 }
 
-/** expo-video wrapper with a styled frame and a play/pause overlay. */
+/** Plays a clip in a styled frame with a play/pause overlay. */
 export function VideoPlayer({
     uri,
     autoPlay = false,
@@ -28,28 +26,5 @@ export function VideoPlayer({
         }
     });
 
-    const { isPlaying } = useEvent(player, 'playingChange', {
-        isPlaying: player.playing,
-    });
-
-    return (
-        <View className={`overflow-hidden rounded-2xl bg-black ${className ?? ''}`}>
-            <VideoView
-                player={player}
-                style={styles.video}
-                contentFit="contain"
-                nativeControls={false}
-            />
-            <Pressable
-                className="absolute inset-0 items-center justify-center"
-                onPress={() => (isPlaying ? player.pause() : player.play())}
-            >
-                {!isPlaying && (
-                    <View className="h-14 w-14 items-center justify-center rounded-full bg-white/80">
-                        <Text className="text-2xl text-black">▶</Text>
-                    </View>
-                )}
-            </Pressable>
-        </View>
-    );
+    return <VideoSurface player={player} className={className} />;
 }

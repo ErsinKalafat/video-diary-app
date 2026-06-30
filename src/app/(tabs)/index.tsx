@@ -9,6 +9,7 @@ import { VideoListItem } from '@/components/home/video-list-item';
 import { Button } from '@/components/ui/button';
 import { ScreenBackground } from '@/components/ui/screen-background';
 import { type VideoEntry } from '@/db/schema';
+import { alertError } from '@/lib/errors';
 import { useRemoveVideo } from '@/hooks/use-video-mutations';
 import { useVideoStore } from '@/store/video-store';
 
@@ -41,11 +42,7 @@ export default function HomeScreen() {
         style: 'destructive',
         onPress: () =>
           removeVideo.mutate(video.id, {
-            onError: (error) =>
-              Alert.alert(
-                'Could not delete',
-                error instanceof Error ? error.message : 'Please try again.'
-              ),
+            onError: (error) => alertError('Could not delete', error),
           }),
       },
     ]);

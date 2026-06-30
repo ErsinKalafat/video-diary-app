@@ -10,6 +10,7 @@ import { MetadataStep } from '@/components/crop/metadata-step';
 import { SelectStep } from '@/components/crop/select-step';
 import { ScreenBackground } from '@/components/ui/screen-background';
 import { type VideoMetadata } from '@/db/schema';
+import { alertError } from '@/lib/errors';
 import { useCreateVideoEntry } from '@/hooks/use-video-mutations';
 import {
     CROP_DURATION_SEC,
@@ -91,12 +92,7 @@ export default function CropModal() {
                 },
                 {
                     onSuccess: close,
-                    onError: (error) => {
-                        Alert.alert(
-                            'Could not crop video',
-                            error instanceof Error ? error.message : 'Please try again.'
-                        );
-                    },
+                    onError: (error) => alertError('Could not crop video', error),
                 }
             );
         },

@@ -7,6 +7,7 @@ import {
     updateVideoMetadata,
 } from '@/db';
 import { type VideoEntry, type VideoMetadata } from '@/db/schema';
+import { toErrorMessage } from '@/lib/errors';
 import { deleteVideoFile } from '@/lib/video-files';
 
 interface VideoState {
@@ -25,10 +26,6 @@ interface VideoState {
     removeVideo: (id: string) => Promise<void>;
 }
 
-function toMessage(error: unknown): string {
-    return error instanceof Error ? error.message : 'Something went wrong';
-}
-
 /**
  * In-memory mirror of the SQLite `videos` table (source of truth on disk).
  * Mutations update the list optimistically and roll back if the DB call fails.
@@ -44,7 +41,7 @@ export const useVideoStore = create<VideoState>((set, get) => ({
             const videos = await listVideos();
             set({ videos, isLoading: false });
         } catch (error) {
-            set({ isLoading: false, error: toMessage(error) });
+            set({ isLoading: false, error: toErrorMessage(error) });
         }
     },
 
@@ -54,7 +51,7 @@ export const useVideoStore = create<VideoState>((set, get) => ({
         try {
             await insertVideo(entry);
         } catch (error) {
-            set({ videos: previous, error: toMessage(error) });
+            set({ videos: previous, error: toErrorMessage(error) });
             throw error;
         }
     },
@@ -70,7 +67,7 @@ export const useVideoStore = create<VideoState>((set, get) => ({
         try {
             await updateVideoMetadata(id, metadata);
         } catch (error) {
-            set({ videos: previous, error: toMessage(error) });
+            set({ videos: previous, error: toErrorMessage(error) });
             throw error;
         }
     },
@@ -85,7 +82,7 @@ export const useVideoStore = create<VideoState>((set, get) => ({
                 deleteVideoFile(removed.croppedUri);
             }
         } catch (error) {
-            set({ videos: previous, error: toMessage(error) });
+            set({ videos: previous, error: toErrorMessage(error) });
             throw error;
         }
     },
