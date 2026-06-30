@@ -19,15 +19,6 @@ export async function listVideos(): Promise<VideoEntry[]> {
     );
 }
 
-/** Fetch a single diary entry by id, or null when it does not exist. */
-export async function getVideo(id: string): Promise<VideoEntry | null> {
-    const db = await getDatabase();
-    return db.getFirstAsync<VideoEntry>(
-        `SELECT ${SELECT_COLUMNS} FROM videos WHERE id = ?;`,
-        id
-    );
-}
-
 /** Persist a freshly cropped clip and return the stored entry. */
 export async function insertVideo(entry: VideoEntry): Promise<VideoEntry> {
     const db = await getDatabase();

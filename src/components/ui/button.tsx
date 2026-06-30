@@ -1,6 +1,8 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import { Pressable, Text } from 'react-native';
 
+import { styles } from './button.styles';
+
 type ButtonVariant = 'primary' | 'secondary';
 
 interface ButtonProps {
@@ -31,7 +33,7 @@ export function Button({ label, onPress, variant = 'primary' }: ButtonProps) {
                 colors={PRIMARY_GRADIENT}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 0 }}
-                className="items-center rounded-2xl py-3.5"
+                style={styles.gradient}
             >
                 <Text className="text-base font-semibold text-white">{label}</Text>
             </LinearGradient>

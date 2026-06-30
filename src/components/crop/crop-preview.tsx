@@ -3,6 +3,8 @@ import { useVideoPlayer, VideoView } from 'expo-video';
 import { useEffect } from 'react';
 import { Pressable, Text, View } from 'react-native';
 
+import { styles } from './crop-preview.styles';
+
 interface CropPreviewProps {
     /** URI of the source video. */
     uri: string;
@@ -45,7 +47,7 @@ export function CropPreview({ uri, startSec, windowSec }: CropPreviewProps) {
         <View className="overflow-hidden rounded-2xl bg-black">
             <VideoView
                 player={player}
-                className="w-full aspect-video"
+                style={styles.video}
                 contentFit="contain"
                 nativeControls={false}
             />

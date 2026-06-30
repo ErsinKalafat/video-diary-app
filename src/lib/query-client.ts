@@ -1,9 +1,6 @@
 import { QueryClient } from '@tanstack/react-query';
 
-/**
- * Single shared QueryClient for the app. Imported by the root layout's
- * QueryClientProvider and reused everywhere through the React Query hooks.
- */
+/** Single shared QueryClient, provided by the root layout. */
 export const queryClient = new QueryClient({
     defaultOptions: {
         queries: {

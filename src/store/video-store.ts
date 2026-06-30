@@ -30,10 +30,8 @@ function toMessage(error: unknown): string {
 }
 
 /**
- * Global store for the persisted video list. SQLite is the source of truth on
- * disk; this store keeps an in-memory mirror so screens can render instantly
- * and update optimistically. Mutations write through to SQLite and roll back
- * the in-memory state if the database call fails.
+ * In-memory mirror of the SQLite `videos` table (source of truth on disk).
+ * Mutations update the list optimistically and roll back if the DB call fails.
  */
 export const useVideoStore = create<VideoState>((set, get) => ({
     videos: [],

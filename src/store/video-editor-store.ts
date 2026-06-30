@@ -35,10 +35,8 @@ function clampStart(startSec: number, durationSec: number): number {
 }
 
 /**
- * Ephemeral UI state for the multi-step video creation flow.
- * Persisted data lives in SQLite + the video store; this store only tracks the
- * in-progress draft so the modal's steps can share it without prop drilling.
- * The crop window length is fixed, so we only track its start.
+ * Ephemeral state for the multi-step create flow, shared across the modal's
+ * steps. The crop window length is fixed, so we only track its start.
  */
 export const useVideoEditorStore = create<VideoEditorState>((set, get) => ({
     ...initialState,

@@ -3,6 +3,8 @@ import * as VideoThumbnails from 'expo-video-thumbnails';
 import { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
 
+import { styles } from './video-thumbnail.styles';
+
 interface VideoThumbnailProps {
     /** Local URI of the cropped clip to generate a poster frame from. */
     uri: string;
@@ -27,7 +29,7 @@ export function VideoThumbnail({ uri }: VideoThumbnailProps) {
             {thumbnail ? (
                 <Image
                     source={{ uri: thumbnail }}
-                    className="h-full w-full"
+                    style={styles.image}
                     contentFit="cover"
                 />
             ) : null}

@@ -2,6 +2,8 @@ import { useEvent } from 'expo';
 import { useVideoPlayer, VideoView } from 'expo-video';
 import { Pressable, Text, View } from 'react-native';
 
+import { styles } from './video-player.styles';
+
 interface VideoPlayerProps {
     /** Local or remote URI of the clip to play. */
     uri: string;
@@ -12,10 +14,7 @@ interface VideoPlayerProps {
     className?: string;
 }
 
-/**
- * Thin wrapper around expo-video that exposes a styled player with a
- * play/pause overlay. Used by the crop preview and the entry detail screen.
- */
+/** expo-video wrapper with a styled frame and a play/pause overlay. */
 export function VideoPlayer({
     uri,
     autoPlay = false,
@@ -37,7 +36,7 @@ export function VideoPlayer({
         <View className={`overflow-hidden rounded-2xl bg-black ${className ?? ''}`}>
             <VideoView
                 player={player}
-                className="w-full aspect-video"
+                style={styles.video}
                 contentFit="contain"
                 nativeControls={false}
             />

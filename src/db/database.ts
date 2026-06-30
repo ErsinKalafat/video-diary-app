@@ -5,9 +5,8 @@ const DATABASE_NAME = 'video-diary.db';
 let databasePromise: Promise<SQLite.SQLiteDatabase> | null = null;
 
 /**
- * Lazily opens (and memoizes) the database connection and runs the schema
- * migration on first access. Every query helper goes through this so the
- * `videos` table is guaranteed to exist before any read/write.
+ * Lazily opens and memoizes the connection, creating the `videos` table on
+ * first access so every query can assume it exists.
  */
 export function getDatabase(): Promise<SQLite.SQLiteDatabase> {
     if (!databasePromise) {

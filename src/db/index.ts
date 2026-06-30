@@ -1,7 +1,5 @@
-export { getDatabase } from './database';
 export {
     deleteVideo,
-    getVideo,
     insertVideo,
     listVideos,
     updateVideoMetadata,
