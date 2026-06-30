@@ -10,16 +10,18 @@ To keep the app extensible and maintainable, a hybrid **Feature-Based / Layered*
 ```text
 src/
 ├── app/                          # Expo Router file-based navigation
-│   ├── _layout.tsx               # Root layout (QueryClientProvider, theme, tabs)
-│   ├── index.tsx                 # Home screen (list of cropped videos)
-│   ├── crop-modal.tsx            # Video cropping flow (modal screen)        (planned)
+│   ├── _layout.tsx               # Root Stack (providers, theme, hosts tabs + modal)
+│   ├── (tabs)/                   # Tab group
+│   │   ├── _layout.tsx           # Tab bar navigator (renders AppTabs)
+│   │   └── index.tsx             # Home screen (list of cropped videos)
+│   ├── crop-modal.tsx            # Video cropping flow (3-step modal screen)
 │   ├── details/[id].tsx          # Video detail page                        (planned)
 │   └── edit/[id].tsx             # Video edit page (name/description)        (planned)
 ├── components/                   # Reusable UI components
 │   ├── app-tabs.tsx              # Tab bar (with .web.tsx variant)
 │   ├── metadata-form.tsx         # Zod-powered name/description form (shared create & edit)
 │   ├── video-player.tsx          # Expo Video-based player control
-│   ├── scrubber.tsx              # Reanimated-powered 5-second selection bar (planned)
+│   ├── scrubber.tsx              # Reanimated-powered 5-second selection bar
 │   ├── themed-text.tsx           # Theme-aware text primitive
 │   ├── themed-view.tsx           # Theme-aware view primitive
 │   └── external-link.tsx         # External link helper
