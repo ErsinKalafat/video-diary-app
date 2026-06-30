@@ -6,10 +6,11 @@ import { type VideoEntry } from '@/db/schema';
 interface VideoListItemProps {
     video: VideoEntry;
     onPress: () => void;
+    onDelete: () => void;
 }
 
-/** A single row in the home list: play icon, name and a short description. */
-export function VideoListItem({ video, onPress }: VideoListItemProps) {
+/** A single row in the home list: play icon, name, description and a delete button. */
+export function VideoListItem({ video, onPress, onDelete }: VideoListItemProps) {
     return (
         <Animated.View entering={FadeInDown} layout={LinearTransition.springify()}>
             <Pressable
@@ -35,6 +36,13 @@ export function VideoListItem({ video, onPress }: VideoListItemProps) {
                         </Text>
                     ) : null}
                 </View>
+                <Pressable
+                    className="h-9 w-9 items-center justify-center rounded-full active:opacity-60"
+                    hitSlop={8}
+                    onPress={onDelete}
+                >
+                    <Text className="text-lg">🗑️</Text>
+                </Pressable>
             </Pressable>
         </Animated.View>
     );
